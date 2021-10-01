@@ -14,11 +14,21 @@ describe('mapObjectToArray()', () => {
     test('Testing if the callback is actually called', () => {
         const mockCallback = jest.fn();
 
-        const results = mapObjectToArray({name: 'Aditya', age: 21}, mockCallback);
+        mapObjectToArray({name: 'Aditya', age: 21}, mockCallback);
 
         expect(mockCallback.mock.calls.length).toBe(2);
     })
 
+    test('Testing if callback gets the correct args', () => {
+        const mockCallback = jest.fn();
+
+        mapObjectToArray({name: 'Aditya', age: 21}, mockCallback);
+
+        const firstCall = mockCallback.mock.calls[0];
+        expect(firstCall[0]).toBe('name');
+        expect(firstCall[1]).toBe('Aditya');
+        expect(firstCall[2]).toEqual({name: 'Aditya', age: 21});
+    })
 })
 
 describe('getNewUser()', () => {
@@ -37,9 +47,8 @@ describe('getNewUser()', () => {
         try{
             const user = await getNewUser(10);
         } catch (e) {
-            expect(1).toBe(1)
+            expect(e).toBeTruthy()
         }
 
     })
-
 })
